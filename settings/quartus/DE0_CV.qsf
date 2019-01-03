@@ -382,26 +382,26 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_RESET_N
 #============================================================
 # LEDR
 #============================================================
-set_location_assignment PIN_AA2 -to LEDR[0]
-set_location_assignment PIN_AA1 -to LEDR[1]
-set_location_assignment PIN_W2 -to LEDR[2]
-set_location_assignment PIN_Y3 -to LEDR[3]
-set_location_assignment PIN_N2 -to LEDR[4]
-set_location_assignment PIN_N1 -to LEDR[5]
-set_location_assignment PIN_U2 -to LEDR[6]
-set_location_assignment PIN_U1 -to LEDR[7]
-set_location_assignment PIN_L2 -to LEDR[8]
-set_location_assignment PIN_L1 -to LEDR[9]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[9]
+set_location_assignment PIN_AA2 -to o_ledr0
+set_location_assignment PIN_AA1 -to o_ledr1
+set_location_assignment PIN_W2 -to o_ledr2
+set_location_assignment PIN_Y3 -to o_ledr3
+set_location_assignment PIN_N2 -to o_ledr4
+set_location_assignment PIN_N1 -to o_ledr5
+set_location_assignment PIN_U2 -to o_ledr6
+set_location_assignment PIN_U1 -to o_ledr7
+set_location_assignment PIN_L2 -to o_ledr8
+set_location_assignment PIN_L1 -to o_ledr9
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr2
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr3
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr4
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr5
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr6
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr7
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr8
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_ledr9
 
 #============================================================
 # microSD Card
@@ -422,10 +422,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SD_DATA[3]
 #============================================================
 # PS2
 #============================================================
-set_location_assignment PIN_D3 -to PS2_CLK
-set_location_assignment PIN_G2 -to PS2_DAT
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_CLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_DAT
+set_location_assignment PIN_D3 -to i_ps2_kbclk
+set_location_assignment PIN_G2 -to i_ps2_kbdat
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_kbclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_kbdat
 
 set_location_assignment PIN_E2 -to PS2_CLK2
 set_location_assignment PIN_G1 -to PS2_DAT2

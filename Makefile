@@ -1,4 +1,4 @@
-SUBDIRS=general display component
+SUBDIRS=general display component kb
 
 .SUFFIX:
 .PHONY: all clean open
