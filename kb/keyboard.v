@@ -28,8 +28,8 @@ module keyboard (
   recv recv0(
     .clk(clk),
     .i_sclr(i_sclr),
-    .i_dat(i_ps2_dat),
     .i_en(s_edge_en),
+    .i_dat(i_ps2_dat),
     .o_data(s_data[7:0])
   );
   assign s_data[23:8] = 16'h0000;

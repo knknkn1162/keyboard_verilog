@@ -22,6 +22,7 @@ module recv (
     .i_a(s_nextstage),
     .o_y(s_stage)
   );
+  assign s_nextstage = nextstage(s_stage, i_dat, s_parity1);
 
   flopr_en #(BIT_SIZE) flopr_data0 (
     .clk(clk),
@@ -30,6 +31,7 @@ module recv (
     .i_a(s_data0),
     .o_y(s_data1)
   );
+  assign s_data0 = (s_stage >=4'b0001 && s_stage <= 4'b1000) ? {s_data1[BIT_SIZE-2:0], i_dat} : s_data1;
 
   bflopr_en bflopr_parity (
     .clk(clk),
@@ -38,13 +40,9 @@ module recv (
     .i_a(s_parity0),
     .o_y(s_parity1)
   );
-
-  assign s_data0 = (s_stage >=4'b0001 && s_stage <= 4'b1000) ? {s_data1[BIT_SIZE-2:0], i_dat} : s_data1;
   assign s_parity0 = (s_stage >= 4'b0001 && s_stage <= 4'b1000) ? s_parity1 + i_dat : 1'b0;
-  assign s_nextstage = nextstage(s_stage, i_dat, s_parity1);
   
   assign s_data_en = (s_stage == 4'b1010) ? 1'b1 : 1'b0;
-
   flopr_en #(8) flopr_data1 (
     .clk(clk),
     .i_sclr(i_sclr),
