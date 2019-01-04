@@ -31,7 +31,7 @@ module recv (
     .i_a(s_data0),
     .o_y(s_data1)
   );
-  assign s_data0 = (s_stage >=4'b0001 && s_stage <= 4'b1000) ? {s_data1[BIT_SIZE-2:0], i_dat} : s_data1;
+  assign s_data0 = (s_stage >=4'b0001 && s_stage <= 4'b1000) ? {i_dat, s_data1[BIT_SIZE-1:1]} : s_data1;
 
   bflopr_en bflopr_parity (
     .clk(clk),
