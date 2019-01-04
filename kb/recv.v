@@ -40,7 +40,7 @@ module recv (
     .i_a(s_parity0),
     .o_y(s_parity1)
   );
-  assign s_parity0 = (s_stage >= 4'b0001 && s_stage <= 4'b1000) ? s_parity1 + i_dat : 1'b0;
+  assign s_parity0 = (s_stage >= 4'b0001 && s_stage <= 4'b1000) ? s_parity1 + i_dat : 1'b1;
   
   assign s_data_en = (s_stage == 4'b1010) ? 1'b1 : 1'b0;
   flopr_en #(8) flopr_data1 (
