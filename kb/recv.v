@@ -18,7 +18,7 @@ module recv (
   flopr_en #(4) flopr_stage (
     .clk(clk),
     .i_sclr(i_sclr),
-    .i_en(s_edge_en),
+    .i_en(i_en),
     .i_a(s_nextstage),
     .o_y(s_stage)
   );
@@ -27,7 +27,7 @@ module recv (
   flopr_en #(BIT_SIZE) flopr_data0 (
     .clk(clk),
     .i_sclr(i_sclr),
-    .i_en(s_edge_en),
+    .i_en(i_en),
     .i_a(s_data0),
     .o_y(s_data1)
   );
@@ -36,7 +36,7 @@ module recv (
   bflopr_en bflopr_parity (
     .clk(clk),
     .i_sclr(i_sclr),
-    .i_en(s_edge_en),
+    .i_en(i_en),
     .i_a(s_parity0),
     .o_y(s_parity1)
   );
@@ -54,26 +54,26 @@ module recv (
   assign o_data = s_data2;
 
   localparam START_BIT = 1'b0;
-  localparam PARITY_BIT = 1'b1;
-  function [4:0] nextstage;
+  localparam INIT_STATE = 4'b0000;
+  function [3:0] nextstage;
     input [3:0] stage;
     input dat;
     input parity;
   begin
     // start bit
     if (stage == 4'b0000) begin
-      nextstage = (dat== START_BIT) ? stage + 1 : 4'b0000;
+      nextstage = (dat== START_BIT) ? 4'b0001 : INIT_STATE;
     // data
     end else if (stage >= 4'b0001 && stage <= 4'b1000) begin
       nextstage = stage + 1'b1;
     // parity bit
     end else if (stage == 4'b1001) begin
-      nextstage = (parity==dat) ? stage + 1 : 4'b0000;
+      nextstage = (parity==dat) ? 4'b1010 : INIT_STATE;
     // stop bit
     end else if (stage == 4'b1010) begin
-      nextstage = 4'b0000;
+      nextstage = INIT_STATE;
     end else
-      nextstage = 4'b0000;
+      nextstage = INIT_STATE;
     end
   endfunction
 endmodule
