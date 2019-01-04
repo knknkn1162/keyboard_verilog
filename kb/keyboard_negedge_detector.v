@@ -11,7 +11,6 @@ module keyboard_negedge_detector (
 
   wire s_sampling_en;
 
-  assign s_ps2_clk = ~i_ps2_clk_n;
   localparam SAMPLING_BIT_SIZE = 5; // approx. 1.6 MHz
 
   enable_gen #(SAMPLING_BIT_SIZE) enable_gen0(
@@ -24,7 +23,7 @@ module keyboard_negedge_detector (
     .clk(clk),
     .i_sclr(i_sclr),
     .i_en(s_sampling_en),
-    .i_dat(s_ps2_clk),
+    .i_dat(~i_ps2_clk_n),
     .o_posedge(o_edge_en)
   );
 
