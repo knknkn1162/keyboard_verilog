@@ -1,9 +1,49 @@
+`ifndef _keyboard
+`define _keyboard
+
+
+`include "keyboard_negedge_detector.v"
+`include "flopr_en.v"
+`include "toggle.v"
+`include "hex_display.v"
+`include "recv.v"
+
 module keyboard (
-  input wire i_ps2_kbclk, i_ps2_kbdat,
-  output wire o_ledr0, o_ledr1
+  input wire clk, i_sclr,
+  input wire i_ps2_clk_n, i_ps2_dat,
+  output wire [6:0] o_hex0, o_hex1, o_hex2, o_hex3, o_hex4, o_hex5
 );
 
-  assign o_ledr0 = i_ps2_kbclk;
-  assign o_ledr1 = i_ps2_kbdat;
+  wire s_ps2_clk;
+  wire s_edge_en;
+  wire [23:0] s_data;
+
+  keyboard_negedge_detector keyboard_negedge_detector0 (
+    .clk(clk),
+    .i_sclr(i_sclr),
+    .i_ps2_clk_n(i_ps2_clk_n),
+    .o_edge_en(s_edge_en)
+  );
+
+  recv recv0(
+    .clk(clk),
+    .i_sclr(i_sclr),
+    .i_dat(i_ps2_dat),
+    .i_en(s_edge_en),
+    .o_data(s_data[7:0])
+  );
+  assign s_data[23:8] = 16'h0000;
+
+  hex_display hex_display0 (
+    .i_num(s_data),
+    .o_hex0(o_hex0),
+    .o_hex1(o_hex1),
+    .o_hex2(o_hex2),
+    .o_hex3(o_hex3),
+    .o_hex4(o_hex4),
+    .o_hex5(o_hex5)
+  );
 
 endmodule
+
+`endif
