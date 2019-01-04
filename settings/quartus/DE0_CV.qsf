@@ -422,10 +422,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SD_DATA[3]
 #============================================================
 # PS2
 #============================================================
-set_location_assignment PIN_D3 -to i_ps2_kbclk
-set_location_assignment PIN_G2 -to i_ps2_kbdat
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_kbclk
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_kbdat
+set_location_assignment PIN_D3 -to i_ps2_clk_n
+set_location_assignment PIN_G2 -to i_ps2_dat
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_clk_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_ps2_dat
 
 set_location_assignment PIN_E2 -to PS2_CLK2
 set_location_assignment PIN_G1 -to PS2_DAT2
@@ -444,7 +444,7 @@ set_location_assignment PIN_AB15 -to SW[5]
 set_location_assignment PIN_AA14 -to SW[6]
 set_location_assignment PIN_AA13 -to SW[7]
 set_location_assignment PIN_AB13 -to SW[8]
-set_location_assignment PIN_AB12 -to SW[9]
+set_location_assignment PIN_AB12 -to i_sclr
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[2]
@@ -454,7 +454,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[5]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[6]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to i_sclr
 
 #============================================================
 # VGA
