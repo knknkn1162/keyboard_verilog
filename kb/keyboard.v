@@ -1,12 +1,11 @@
 `ifndef _keyboard
 `define _keyboard
 
-
 `include "keyboard_negedge_detector.v"
-`include "flopr_en.v"
 `include "toggle.v"
 `include "hex_display.v"
 `include "recv.v"
+`include "counter_en.v"
 
 module keyboard (
   input wire clk, i_sclr,
@@ -25,6 +24,11 @@ module keyboard (
     .o_edge_en(s_edge_en)
   );
 
+  wire [7:0] s_cnt;
+  counter_en #(8) counter_en0(
+    .clk(clk), .i_sclr(i_sclr), .i_en(s_edge_en), .o_cnt(s_cnt)
+  );
+
   recv recv0(
     .clk(clk),
     .i_sclr(i_sclr),
@@ -32,7 +36,9 @@ module keyboard (
     .i_dat(i_ps2_dat),
     .o_data(s_data[7:0])
   );
-  assign s_data[23:8] = 16'h0000;
+
+  assign s_data[23:16] = s_cnt;
+  assign s_data[15:8] = 8'h00;
 
   hex_display hex_display0 (
     .i_num(s_data),
