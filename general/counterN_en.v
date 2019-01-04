@@ -20,7 +20,7 @@ module counterN_en #(
     .o_y(w_cnt_1)
   );
 
-  assign w_cnt_0 = (w_cnt_1 == ULIMIT) ? {WIDTH{1'b0}} : w_cnt_1 + 1'b1;
+  assign w_cnt_0 = (w_cnt_1 == ULIMIT-1'b1) ? {WIDTH{1'b0}} : w_cnt_1 + 1'b1;
   assign o_cnt = w_cnt_1;
 endmodule
 

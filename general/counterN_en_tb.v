@@ -7,7 +7,7 @@ module counterN_en_tb;
   wire [3:0] o_cnt;
 
   parameter CLK_PERIOD = 10;
-  parameter ULIMIT = 9;
+  parameter ULIMIT = 10;
   parameter WIDTH = 4;
 
   counterN_en #(ULIMIT, WIDTH) uut(
