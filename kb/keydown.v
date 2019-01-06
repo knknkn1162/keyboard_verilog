@@ -17,7 +17,7 @@ module keydown (
 
   localparam INIT_STATE = 1'b0;
   wire s_state, s_nextstate;
-  wire s_scancode_en;
+  wire s_scancode_en, s_capslock_en;
   wire s_f0, s_capslock;
 
   bflopr_en flopr_fsm (

@@ -10,8 +10,8 @@
 module keyboard (
   input wire clk, i_sclr,
   input wire i_ps2_clk_n, i_ps2_dat,
-  output wire [9:0] o_ledr,
-  output wire [6:0] o_hex0, o_hex1, o_hex2, o_hex3, o_hex4, o_hex5
+  output wire [9:0] o_ledr
+  //output wire [6:0] o_hex0, o_hex1, o_hex2, o_hex3, o_hex4, o_hex5
 );
 
   wire s_kbclk_en;
