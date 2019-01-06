@@ -68,9 +68,9 @@ module keyboard (
   );
 
   // for debug
-  assign o_ledr[7:0] = (s_scan_valid) ? s_byte1 : 8'h00;
+  assign o_ledr[7:0] = s_byte1;
   assign o_ledr[8] = s_shift;
-  assign o_ledr[9] = s_capslock;
+  assign o_ledr[9] = s_scan_valid; //s_capslock;
 
   assign s_num[23:8] = 16'h0000;
   assign s_num[7:0] = s_ascii;
