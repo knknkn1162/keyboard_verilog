@@ -5,6 +5,7 @@
 `include "hex_display.v"
 `include "recv.v"
 `include "counter_en.v"
+`include "shift_key.v"
 `include "keydown.v"
 
 module keyboard (
@@ -18,6 +19,7 @@ module keyboard (
   wire [7:0] s_byte;
   wire s_byte_en;
   wire [7:0] s_scancode;
+  wire s_shift, s_capslock;
   // for debug
   wire [23:0] s_num;
 
@@ -37,17 +39,25 @@ module keyboard (
     .o_byte(s_byte)
   );
 
-  wire s_scancode_en;
+  //wire s_scancode_en;
   keydown keydown0 (
     .clk(clk), .i_sclr(i_sclr),
-    .i_byte_en(s_byte_en), .i_byte(s_byte), .o_scancode(s_scancode)
+    .i_byte_en(s_byte_en), .i_byte(s_byte), .o_scancode(s_scancode),
+    .o_capslock(s_capslock)
     // for debug
     //.o_scancode_en(s_scancode_en)
   );
 
+  shift_key shift_key0 (
+    .clk(clk), .i_sclr(i_sclr),
+    .i_byte_en(s_byte_en), .i_byte(s_byte),
+    .o_shift(s_shift)
+  );
+
   // for debug
   assign o_ledr[7:0] = s_scancode;
-  assign o_ledr[9:8] = 2'b00;
+  assign o_ledr[8] = s_shift;
+  assign o_ledr[9] = s_capslock;
 
   //counter_en #(24) counter_en0(
   //  .clk(clk), .i_sclr(i_sclr), .i_en(s_scancode_en), .o_cnt(s_num)
