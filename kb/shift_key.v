@@ -24,7 +24,7 @@ module shift_key (
   );
 
   assign s_f0 = (i_byte == 8'hF0);
-  assign s_shift = (i_byte == LSHIFT_SCANCODE) & (i_byte == RSHIFT_SCANCODE);
+  assign s_shift = (i_byte == LSHIFT_SCANCODE) | (i_byte == RSHIFT_SCANCODE);
   assign s_nextstate = nextstate(s_state, s_shift, s_f0);
   assign o_shift = (s_state == 2'b01 || s_state == 2'b10);
 
