@@ -26,7 +26,7 @@ module scancode2ascii (
     .o_y(s_ascii_info1)
   );
   // left-shift or right-shift or capslock
-  assign s_aux_en = (s_ascii_info1[7:0] == 8'h12 || s_ascii_info1[7:0] == 8'h59 || s_ascii_info2[7:0] == 8'h58);
+  assign s_aux_en = (s_ascii_info1[7:0] == 8'h12 || s_ascii_info1[7:0] == 8'h59 || s_ascii_info1[7:0] == 8'h58);
   // if the s_ascii0 is the aid-key such as shift or capslock, it is purged.
   flopr_en #(9) flopr_en1(
     .clk(clk), .i_sclr(i_sclr), .i_en(~s_aux_en),
