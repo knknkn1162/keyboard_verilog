@@ -4,7 +4,7 @@
 module scancode2ascii (
   input wire [7:0] i_scancode,
   input wire i_shift, i_capslock,
-  input wire [7:0] o_ascii
+  output wire [7:0] o_ascii
 );
 
   wire s_camel;

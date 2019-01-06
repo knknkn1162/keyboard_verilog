@@ -60,7 +60,7 @@ module keyboard (
   scancode2ascii scancode2ascii0 (
     .i_scancode(s_scancode),
     .i_shift(s_shift),
-    .i_capslock(i_capslock),
+    .i_capslock(s_capslock),
     .o_ascii(s_ascii)
   );
 
@@ -69,8 +69,8 @@ module keyboard (
   assign o_ledr[8] = s_shift;
   assign o_ledr[9] = s_capslock;
 
-  assign num[23:8] = 16'h0000;
-  assign num[7:0] = s_ascii;
+  assign s_num[23:8] = 16'h0000;
+  assign s_num[7:0] = s_ascii;
   hex_display hex_display0 (
     .i_num(s_num),
     .o_hex0(o_hex0),
