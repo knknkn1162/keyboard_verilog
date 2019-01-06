@@ -6,27 +6,35 @@
 module scancode2ascii (
   input clk, i_sclr,
   input wire [7:0] i_scancode,
+  input i_valid,
   input wire i_shift, i_capslock,
   output wire [7:0] o_ascii
 );
 
+  localparam DEBUG_CHAR = 8'hFF;
   wire s_camel;
-  wire [7:0] s_ascii, s_nextascii;
-  wire s_help_key;
+  // {valid, ascii}
+  wire [8:0] s_ascii_info0, s_ascii_info1, s_ascii_info2;
+  wire s_aux_en;
 
-
-  // left-shift or right-shift or capskey
-  assign s_help_key = (i_scancode == 8'h12 || i_scancode == 8'h59 || i_scancode == 8'h58);
   assign s_camel = i_shift ^ i_capslock;
+  assign s_ascii_info0 = {i_valid, i_scancode};
 
-  flopr_en #(8) flopr_en_ascii(
+  flopr_en #(9) flopr_en0(
     .clk(clk), .i_sclr(i_sclr), .i_en(1'b1),
-    .i_a(s_nextascii),
-    .o_y(s_ascii)
+    .i_a(s_ascii_info0),
+    .o_y(s_ascii_info1)
+  );
+  // left-shift or right-shift or capslock
+  assign s_aux_en = (s_ascii_info1[7:0] == 8'h12 || s_ascii_info1[7:0] == 8'h59 || s_ascii_info2[7:0] == 8'h58);
+  // if the s_ascii0 is the aid-key such as shift or capslock, it is purged.
+  flopr_en #(9) flopr_en1(
+    .clk(clk), .i_sclr(i_sclr), .i_en(~s_aux_en),
+    .i_a(s_ascii_info1),
+    .o_y(s_ascii_info2)
   );
 
-  assign s_nextascii = (s_help_key) ? s_ascii : ascii(i_scancode, s_camel, i_shift);
-  assign o_ascii = s_ascii;
+  assign o_ascii = (s_ascii_info2[8]) ? ascii(s_ascii_info2[7:0], s_camel, i_shift) : DEBUG_CHAR;
 
   function [7:0] ascii;
     input [7:0] scancode;
