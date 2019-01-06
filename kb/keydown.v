@@ -7,7 +7,9 @@ module keydown (
   input wire clk, i_sclr,
   input wire i_byte_en,
   input wire [7:0] i_byte,
-  output wire [7:0] o_char
+  output wire [7:0] o_char,
+  // for debug
+  output wire o_char_en
 );
 
   localparam STATE_BIT_SIZE = 2;
@@ -27,6 +29,7 @@ module keydown (
     .clk(clk), .i_sclr(i_sclr), .i_en(s_char_en),
     .i_a(i_byte), .o_y(o_char)
   );
+  assign o_char_en = s_char_en;
 
   function [STATE_BIT_SIZE-1:0] nextstate;
     input [STATE_BIT_SIZE-1:0] state;
