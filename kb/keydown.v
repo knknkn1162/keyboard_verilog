@@ -16,13 +16,13 @@ module keydown (
   wire s_char_en;
 
   flopr_en #(2) flopr_fsm (
-    .clk(clk), .i_sclr(i_sclr), .i_en(s_byte_en),
+    .clk(clk), .i_sclr(i_sclr), .i_en(i_byte_en),
     .i_a(s_nextstate), .o_y(s_state)
   );
 
   assign s_nextstate = nextstate(s_state, i_byte);
 
-  assign s_char_en = (s_state == INIT_STATE) & s_byte_en;
+  assign s_char_en = (s_state == INIT_STATE) & i_byte_en;
   flopr_en #(8) flopr_char (
     .clk(clk), .i_sclr(i_sclr), .i_en(s_char_en),
     .i_a(i_byte), .o_y(o_char)
@@ -30,13 +30,15 @@ module keydown (
 
   function [STATE_BIT_SIZE-1:0] nextstate;
     input [STATE_BIT_SIZE-1:0] state;
-    input [7:0] byte;
+    input [7:0] byte0;
     begin
       if (state == INIT_STATE) begin
-        nextstate = (byte == 8'hF0) ? state + 1'b1 : state;
+        nextstate = (byte0 == 8'hF0) ? state + 1'b1 : state;
       end else if (state == 2'b01) begin
         nextstate = 2'b10;
       end else if (state == 2'b10) begin
+        nextstate = INIT_STATE;
+      end else begin
         nextstate = INIT_STATE;
       end
     end
