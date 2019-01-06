@@ -1,22 +1,24 @@
 `ifndef _posedge_detector
 `define _posedge_detector
 
-module posedge_detector (
+`include "shift_left_register.v"
+
+module posedge_detector #(
+  parameter BITS = 3,
+  parameter TRIGGER = 3'b011
+)(
   input wire clk, i_sclr, i_en, i_dat,
   output wire o_posedge
 );
 
-  reg [2:0] r_en;
+  wire [BITS-1:0] s_dat;
+  shift_left_register #(BITS) slr0(
+    .clk(clk), .i_sclr(i_sclr),
+    .i_en(i_en), .i_dat(i_dat),
+    .o_data(s_dat)
+  );
 
-  always @(posedge clk) begin
-    if (i_sclr) begin
-      r_en <= 3'b000;
-    end else if (i_en) begin
-      r_en <= {r_en[1:0], i_dat};
-    end
-  end
-
-  assign o_posedge = (r_en[2:1] == 2'b01) & i_en;
+  assign o_posedge = (s_dat == TRIGGER) & i_en;
 endmodule
 
 `endif
