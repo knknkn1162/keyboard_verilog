@@ -98,8 +98,8 @@ module scancode2ascii (
         8'h5A: ascii = 8'h0D; // enter
         8'h29: ascii = 8'h20; // space
         8'h76: ascii = 8'h1B; // etc
-        // undefined
-        default: ascii = 8'hFF;
+        // undefined (for debug)
+        default: ascii = DEBUG_CHAR;
       endcase
     end
   endfunction
