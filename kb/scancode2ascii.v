@@ -1,6 +1,8 @@
 `ifndef _scancode2ascii
 `define _scancode2ascii
 
+`include "flopr_en.v"
+
 module scancode2ascii (
   input wire [7:0] i_scancode,
   input wire i_shift, i_capslock,
@@ -8,8 +10,22 @@ module scancode2ascii (
 );
 
   wire s_camel;
+  wire [7:0] s_ascii, s_nextascii;
+  wire s_help_key;
+
+
+  // left-shift or right-shift or capskey
+  assign s_help_key = (i_scancode == 8'h12 || i_scancode == 8'h59 || i_scancode == 8'h58);
   assign s_camel = i_shift ^ i_capslock;
-  assign o_ascii = ascii(i_scancode, s_camel, i_shift);
+
+  flopr_en #(8) flopr_en_ascii(
+    .clk(clk), .i_sclr(i_sclr), .i_en(1'b1),
+    .i_a(s_nextascii),
+    .o_y(s_ascii)
+  );
+
+  assign s_nextascii = (s_help_key) ? s_ascii : ascii(i_scancode, s_camel, i_shift);
+  assign o_ascii = s_ascii;
 
   function [7:0] ascii;
     input [7:0] scancode;
