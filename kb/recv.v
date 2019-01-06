@@ -31,6 +31,7 @@ module recv (
     .o_y(s_byte1)
   );
   assign s_byte0 = (s_state >=4'b0001 && s_state <= 4'b1000) ? {i_dat, s_byte1[BIT_SIZE-1:1]} : s_byte1;
+  assign o_byte = s_byte1;
 
   bflopr_en bflopr_parity (
     .clk(clk),
@@ -44,7 +45,6 @@ module recv (
   assign s_nextstate = nextstate(s_state, i_dat, s_parity1);
 
   assign o_byte_en = (s_state == 4'b1010 && i_en == 1'b1) ? 1'b1 : 1'b0;
-  assign o_byte = s_byte1;
 
   localparam START_BIT = 1'b0;
   localparam INIT_STATE = 4'b0000;

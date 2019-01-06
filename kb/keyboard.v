@@ -1,7 +1,7 @@
 `ifndef _keyboard
 `define _keyboard
 
-`include "keyboard_negedge_detector.v"
+`include "kb_sampling_en.v"
 `include "hex_display.v"
 `include "recv.v"
 `include "counter_en.v"
@@ -21,7 +21,7 @@ module keyboard (
   // for debug
   wire [23:0] s_num;
 
-  keyboard_negedge_detector keyboard_negedge_detector0 (
+  kb_sampling_en kb_sampling_en0 (
     .clk(clk),
     .i_sclr(i_sclr),
     .i_ps2_clk_n(i_ps2_clk_n),
