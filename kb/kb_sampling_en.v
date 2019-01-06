@@ -1,10 +1,10 @@
-`ifndef _keyboard_negedge_detector
-`define _keyboard_negedge_detector
+`ifndef _kb_sampling_en
+`define _kb_sampling_en
 
 `include "enable_gen.v"
 `include "posedge_detector.v"
 
-module keyboard_negedge_detector (
+module kb_sampling_en (
   input wire clk, i_sclr, i_ps2_clk_n,
   output wire o_edge_en
 );

@@ -1,7 +1,7 @@
 `include "testbench.v"
-`include "keyboard_negedge_detector.v"
+`include "kb_sampling_en.v"
 
-module keyboard_negedge_detector_tb;
+module kb_sampling_en_tb;
   initial begin
     `alert_empty_tb;
   end
