@@ -1,6 +1,7 @@
 `ifndef _keydown
 `define _keydown
 
+`include "bflopr_en.v"
 `include "flopr_en.v"
 
 module keydown (
@@ -12,40 +13,26 @@ module keydown (
   output wire o_char_en
 );
 
-  localparam STATE_BIT_SIZE = 2;
-  localparam INIT_STATE = 2'b00;
-  wire [STATE_BIT_SIZE-1:0] s_state, s_nextstate;
+  localparam INIT_STATE = 1'b0;
+  wire s_state, s_nextstate;
   wire s_char_en;
+  wire s_f0_enb;
 
-  flopr_en #(2) flopr_fsm (
+  bflopr_en flopr_fsm (
     .clk(clk), .i_sclr(i_sclr), .i_en(i_byte_en),
     .i_a(s_nextstate), .o_y(s_state)
   );
 
-  assign s_nextstate = nextstate(s_state, i_byte);
+  assign s_f0_enb = (i_byte == 8'hF0) ? 1'b1 : 1'b0;
+  assign s_nextstate = (s_state == INIT_STATE) ? (s_state + s_f0_enb) : INIT_STATE;
 
-  assign s_char_en = (s_state == INIT_STATE) & i_byte_en;
+  // s_char_en depends on current byte and state.
+  assign s_char_en = ((s_state == INIT_STATE) & ~s_f0_enb) & i_byte_en;
+  assign o_char_en = s_char_en; // for debug
   flopr_en #(8) flopr_char (
     .clk(clk), .i_sclr(i_sclr), .i_en(s_char_en),
     .i_a(i_byte), .o_y(o_char)
   );
-  assign o_char_en = s_char_en;
-
-  function [STATE_BIT_SIZE-1:0] nextstate;
-    input [STATE_BIT_SIZE-1:0] state;
-    input [7:0] byte0;
-    begin
-      if (state == INIT_STATE) begin
-        nextstate = (byte0 == 8'hF0) ? state + 1'b1 : state;
-      end else if (state == 2'b01) begin
-        nextstate = 2'b10;
-      end else if (state == 2'b10) begin
-        nextstate = INIT_STATE;
-      end else begin
-        nextstate = INIT_STATE;
-      end
-    end
-  endfunction
 
 endmodule
 
