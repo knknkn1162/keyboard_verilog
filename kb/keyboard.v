@@ -14,10 +14,10 @@ module keyboard (
   output wire [6:0] o_hex0, o_hex1, o_hex2, o_hex3, o_hex4, o_hex5
 );
 
-  wire s_edge_en;
+  wire s_kbclk_en;
   wire [7:0] s_byte;
   wire s_byte_en;
-  wire [7:0] s_char;
+  wire [7:0] s_scancode;
   // for debug
   wire [23:0] s_num;
 
@@ -25,42 +25,42 @@ module keyboard (
     .clk(clk),
     .i_sclr(i_sclr),
     .i_ps2_clk_n(i_ps2_clk_n),
-    .o_edge_en(s_edge_en)
+    .o_edge_en(s_kbclk_en)
   );
 
   recv recv0(
     .clk(clk),
     .i_sclr(i_sclr),
-    .i_en(s_edge_en),
+    .i_en(s_kbclk_en),
     .i_dat(i_ps2_dat),
     .o_byte_en(s_byte_en),
     .o_byte(s_byte)
   );
 
-  wire s_char_en;
+  wire s_scancode_en;
   keydown keydown0 (
     .clk(clk), .i_sclr(i_sclr),
-    .i_byte_en(s_byte_en), .i_byte(s_byte), .o_char(s_char),
+    .i_byte_en(s_byte_en), .i_byte(s_byte), .o_scancode(s_scancode)
     // for debug
-    .o_char_en(s_char_en)
+    //.o_scancode_en(s_scancode_en)
   );
 
   // for debug
-  assign o_ledr[7:0] = s_char;
+  assign o_ledr[7:0] = s_scancode;
   assign o_ledr[9:8] = 2'b00;
 
-  counter_en #(24) counter_en0(
-    .clk(clk), .i_sclr(i_sclr), .i_en(s_char_en), .o_cnt(s_num)
-  );
-  hex_display hex_display0 (
-    .i_num(s_num),
-    .o_hex0(o_hex0),
-    .o_hex1(o_hex1),
-    .o_hex2(o_hex2),
-    .o_hex3(o_hex3),
-    .o_hex4(o_hex4),
-    .o_hex5(o_hex5)
-  );
+  //counter_en #(24) counter_en0(
+  //  .clk(clk), .i_sclr(i_sclr), .i_en(s_scancode_en), .o_cnt(s_num)
+  //);
+  //hex_display hex_display0 (
+  //  .i_num(s_num),
+  //  .o_hex0(o_hex0),
+  //  .o_hex1(o_hex1),
+  //  .o_hex2(o_hex2),
+  //  .o_hex3(o_hex3),
+  //  .o_hex4(o_hex4),
+  //  .o_hex5(o_hex5)
+  //);
 
 endmodule
 
