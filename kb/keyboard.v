@@ -58,11 +58,13 @@ module keyboard (
   );
 
   scancode2ascii scancode2ascii0 (
+    .clk(clk), .i_sclr(i_sclr),
     .i_scancode(s_scancode),
     .i_shift(s_shift),
     .i_capslock(s_capslock),
     .o_ascii(s_ascii)
   );
+
 
   // for debug
   assign o_ledr[7:0] = s_scancode;
